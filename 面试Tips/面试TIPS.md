@@ -72,3 +72,10 @@
 1. 线程的认识
 2. volatile关键字
 3. 线程池的认识
+4. BIO、NIO
+
+#### 十一、数据库
+
+1. 索引
+2. MySQL
+3. Hbase，Hive
