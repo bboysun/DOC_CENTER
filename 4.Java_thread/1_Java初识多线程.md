@@ -4,11 +4,11 @@
 
 首先，我们需要了解进程和线程是怎样的关系。进程我们可以理解在操作系统层面上的一个独立的应用服务，比如我们在win7上打开微信，QQ等，都可以看做是独立的进程。然后看下，百度百科是怎么说进程的。
 
-![1555933821169](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1555933821169.png)
+![1555933821169](image\1555933821169.png)
 
 然后，我们看下线程又是什么。线程可以看成是在进程中独立运行的子任务。比如我们的QQ在运行时，可以有多个子任务同时在执行，如下载文件，视频聊天，传输数据，发送消息等。看下百度百科是怎么说的。
 
-![1555934025824](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1555934025824.png)
+![1555934025824](image/image%5C1555934025824.png)
 
 这样我们就大概的了解，进程与线程之间的关系了吧。那么线程有什么优势呢？线程并发的执行保证了CPU利用率的大幅提升。
 
@@ -80,11 +80,11 @@ public class Zouni {
 
 执行结果如下：
 
-![1555938203345](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1555938203345.png)
+![1555938203345](image/image%5C1555938203345.png)
 
 此处，我们需要注意的是，start（）方法是通知"线程规划器"此线程已经准备就绪，等待调用线程对象的run（）方法。这个过程其实是让系统安排一个时间来调用Thread中run（）方法，也就是启动线程，具有异步执行的效果。如果调用代码thread.runa()就不是异步执行了，而是同步执行，那么此线程对象并不交给线程规划器来进行处理，而是由main主线程来调用run（）方法。改为run（）来执行的结果如下：
 
-![1555938501043](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1555938501043.png)
+![1555938501043](image/image%5C1555938501043.png)
 
 另外，使用start（）时，线程启动顺序和start（）方法调用顺序无关，完全是并行随机执行的。
 
@@ -96,7 +96,7 @@ public class Zouni {
 
    Thread类的构造函数之一如下：
 
-   ![1556020997445](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1556020997445.png)
+   ![1556020997445](image/image%5C1556020997445.png)
 
 ​      简单代码示例如下：
 
@@ -125,7 +125,7 @@ public class Run {
 
 运行结果如下：
 
-![1556021451990](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1556021451990.png)
+![1556021451990](image/image%5C1556021451990.png)
 
 3. 实现Callable接口，配合Future接口
 
@@ -133,7 +133,7 @@ public class Run {
 
    首先，看下Callable接口都有什么东东在里面，如下：
 
-   ![1556022504466](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1556022504466.png)
+   ![1556022504466](image/image%5C1556022504466.png)
 
    只有一个call（）方法，注意这个方法是有返回值得，和Runnable的run（）的区别就在于此。
 
@@ -199,10 +199,11 @@ public class Run {
 
    运行结果如下：
 
-   ![1556024134682](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1556024134682.png)
+   ![1556024134682](image/image%5C1556024134682.png)
 
    到此为止，我们大概的认识了Java的多线程基本知识。
 
    后续会有更深入的总结分析。
 
    :notebook:  ==相关代码见sun 项目==
+
