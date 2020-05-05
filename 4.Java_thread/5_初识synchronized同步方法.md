@@ -117,7 +117,7 @@ public class GoGoGo {
 
 运行结果如下：
 
-![1559458448905](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1559458448905.png)
+![1559458448905](image\1559458448905.png)
 
 我们会发现此时就出现了非线程安全问题。
 
@@ -159,6 +159,6 @@ public class HasSelfPrivateNum {
 
 运行结果如下：
 
-![1559458607330](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1559458607330.png)
+![1559458607330](image\1559458607330.png)
 
 见识到synchronized的厉害了吧~

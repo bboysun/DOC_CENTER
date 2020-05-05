@@ -59,7 +59,7 @@ public class Run {
 
 运行结果如下：
 
-![1556451026967](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1556451026967.png)
+![1556451026967](image\1556451026967.png)
 
 由此可以看出，我们一共创建了3个线程，每个线程都有各自的count变量。
 
@@ -133,7 +133,7 @@ public class Run2 {
 
 运行结果如下：
 
-![1556452440588](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1556452440588.png)
+![1556452440588](image\1556452440588.png)
 
 这里面AB两个线程同时打印出了8，说明AB同时对count进行了处理，产生了非线程安全问题。
 
@@ -193,6 +193,6 @@ public class Run3 {
 
 运行结果如下：
 
-![1556452992215](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1556452992215.png)
+![1556452992215](image\1556452992215.png)
 
 synchronized可以在任意对象及方法上加锁，加锁的这段代码称为互斥区或者临界区。非线程安全主要是指多个线程对同一个对象中的同一变量进行操作时会出现值被变更、值不同步的情况，进而影响程序的执行流程。

@@ -73,7 +73,7 @@ public class Go2Run {
 
 运行结果如下：
 
-![1560061087317](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1560061087317.png)
+![1560061087317](image\1560061087317.png)
 
 但上面的栗子，运行在-server服务器模式中的64bit的JVM上时，会出现死循环。解决的办法就是使用volatile关键字。
 

@@ -105,11 +105,11 @@ public class TestThread {
 
 运行结果如下：
 
-![1559460613997](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1559460613997.png)
+![1559460613997](image\1559460613997.png)
 
 当修改主线程休眠时间为6000时，运行结果如下：
 
-![1559460663592](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1559460663592.png)
+![1559460663592](image\1559460663592.png)
 
 我们会发现脏读是因为getValue()方法并不是同步造成的，解决办法自然是在getValue()方法上加synchronized关键字。
 
