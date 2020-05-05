@@ -4,7 +4,7 @@
 
 MNIST是一个入门级的计算机视觉数据集，它包含各种手写数据图片：
 
-![1561888539993](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1561888539993.png)
+![1561888539993](image\1561888539993.png)
 
 我们这里从一个很简单的数学模型开始，它叫做Softmax Regression。
 
@@ -21,17 +21,17 @@ mnist = input_data.read_data_sets('MNIST_data',one_hot=True)
 
 每一张图片包含28像素*28像素。我们可以用一个数字数组来表示这张图片：
 
-![1561889002382](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1561889002382.png)
+![1561889002382](image\1561889002382.png)
 
 我们把这个数组展开成一个向量，长度是28*28=784。从这个角度来看，mnist数据集中的图片就是784维向量空间里面的点，并且拥有复杂的结构。
 
 在mnist训练数据集中，mnist.train.images是一个形状为[60000,784]的张量，第一个维度数据用来索引图片，第二个维度数据用来索引每张图片中的像素点。在此张量里的每一个元素，都表示某张图片里的某个像素的强度值，值介于0和1之间。
 
-![1561889331589](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1561889331589.png)
+![1561889331589](image\1561889331589.png)
 
 相应的mnist数据集的标签介于0到9的数字，用来描述给定的图片里表示的数字。我们使用标签数据是one-hot vectors。一个one-hot向量除了某一位的数字是1以外其余各维度数字都是0。数字n将表示成一个只有在第n维度（从0开始）数字为1到10维向量。比如，标签0将表示成([1,0,0,0,0,0,0,0,0,0,0])。因此，mnist.train.labels是一个[60000,10]的数字矩阵。
 
-![1561889631193](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1561889631193.png)
+![1561889631193](image\1561889631193.png)
 
 此时，数据集已经准备完成了。
 
@@ -51,39 +51,39 @@ Softmax回归分两步：
 
 第一步：给定图片某个特定数字类的证据，可以对图片像素值进行加权求和。如果像素具有很强的证据说明这张图片不属于该类，那么相应的权值为负数，相反如果这个像素拥有有利的证据支持这张图片属于这个类，那么权值是正数。例如下面的，红色代表负数权值，蓝色代表正数权值。
 
-![1561980664684](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1561980664684.png)
+![1561980664684](image\1561980664684.png)
 
 也需要加入一个额外的偏置量（bias），因此对于给定的输入图片x它代表的是数字i的证据可以表示为：
 
-![1561980818968](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1561980818968.png)
+![1561980818968](image\1561980818968.png)
 
 其中，Wi代表权重，bi代表数字i类的偏置量，j代表给定图片x的像素索引，用于像素求和。然后用Softmax函数可以把这些证据转换成概率y:
 
-![1561980918223](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1561980918223.png)
+![1561980918223](image\1561980918223.png)
 
 这里的Softmax可以看成是一个激励函数，把我们定义的线性函数的输出转换成我们想要的格式，也就是关于10个数字类的概率分布。因此，给定一张图片，它对于每一个数字的吻合度可以被Softmax函数转换成一个概率值。
 
-![1561981484533](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1561981484533.png)
+![1561981484533](image\1561981484533.png)
 
 展开等式右边的子式，可以得到：
 
-![1561981833055](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1561981833055.png)
+![1561981833055](image\1561981833055.png)
 
 更多的时候把Softmax模型函数定义为前一种，把输入值当成幂指数求值，再正则化这些结果值。这个幂运算表示，更大的证据对应更大的假设模型里面的乘数权重值。反之，拥有更少的证据意味着在假设模型里面拥有更小的乘数系数。假设迷行里的权值不可以是0或者负值。Softmax然后会正则化这些权重值，使他们的总和等于1，以此构造一个有效的概率分布。对于Softmax回归模型可以用下面的图解释，对于输入的xs加权求和，再分别加上一个偏置量，最后再输入都Softmax函数中：
 
-![1561982220184](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1561982220184.png)
+![1561982220184](image\1561982220184.png)
 
 转换成矩阵可以看到：
 
-![1561982263787](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1561982263787.png)
+![1561982263787](image\1561982263787.png)
 
 也可以用向量表示这个计算过程，矩阵乘法和向量相加。
 
-![1561982320648](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1561982320648.png)
+![1561982320648](image\1561982320648.png)
 
 再进一步就演变成：
 
-![1561982354662](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1561982354662.png)
+![1561982354662](image\1561982354662.png)
 
 代码中：
 
@@ -142,4 +142,4 @@ for i in range(1000):
 
 结果如下图：
 
-![1562157023164](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1562157023164.png)
+![1562157023164](image\1562157023164.png)

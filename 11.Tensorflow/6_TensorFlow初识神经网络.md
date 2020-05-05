@@ -79,12 +79,13 @@ for i in range(1000):
 
 再看看效果是怎样的，看看下面：
 
-![](E:\文档中心\tensorflow\图像结果\Figure_1.png)
+![](图像结果\Figure_1.png)
 
-![Figure_2](E:\文档中心\tensorflow\图像结果\Figure_2.png)
+![Figure_2](图像结果\Figure_2.png)
 
-![Figure_3](E:\文档中心\tensorflow\图像结果\Figure_3.png)
+![Figure_3](图像结果\Figure_3.png)
 
-![Figure_4](E:\文档中心\tensorflow\图像结果\Figure_4.png)
+![Figure_4](图像结果\Figure_4.png)
 
 我们会看到红色的线会不断的逼近随机生成的点；从而对随机点的数据做正确的预测；后面我们会详细解析上面的代码。
+

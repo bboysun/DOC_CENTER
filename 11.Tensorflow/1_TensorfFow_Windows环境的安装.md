@@ -28,21 +28,21 @@
 
 　　 这两行代码用来改成连接清华镜像的，对应的文件在C:\Users\Darryl\.condarc，文件内容如下图：
 
-![1552999106567](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1552999106567.png)
+![1552999106567](image\1552999106567.png)
 
 ​	(2) 接下来，安装TensorFlow，在Anaconda Prompt中输入：conda create -n tensorflow python=3.5.2
 
 ​	正常如下图：
 
-![1552999272112](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1552999272112.png)
+![1552999272112](image\1552999272112.png)
 
 ​	等待，然后输入“y”
 
-![1552999319196](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1552999319196.png)
+![1552999319196](image\1552999319196.png)
 
 ​	然后：
 
-![1552999348223](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1552999348223.png)
+![1552999348223](image\1552999348223.png)
 
 ​	最后，看到上面这些activate tensorflow（这么直白的英语，看看是不是很激动，）恭喜你，tensorflow你已经安装成功啦，去激活一下，紧接着输入：“activate tensorflow”就Ok了。
 
@@ -52,7 +52,7 @@
 
 ​	如下图就表明大法完成：
 
-![1552999665128](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1552999665128.png)
+![1552999665128](image\1552999665128.png)
 
 五、测试验证：
 
@@ -72,13 +72,13 @@
 
 ​	执行如下图：
 
-![1552999911182](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1552999911182.png)
+![1552999911182](image\1552999911182.png)
 
 六、备注：
 
 ​	如果中途提示说需要pip升级，是因为我们pip的版本问题，我们只需跟着提示将pip版本做对应的升级即可，如下图：
 
-![1553000059738](C:\Users\Darryl\AppData\Roaming\Typora\typora-user-images\1553000059738.png)
+![1553000059738](image\1553000059738.png)
 
 ​	升级完成后，就可以通过pip对TensorFlow CPU版本进行安装。
 
