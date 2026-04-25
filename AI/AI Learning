@@ -1,0 +1,200 @@
+AI Learning
+金融场景 AI Agent / SFT / RL 岗位关键点分析
+这是一个偏 AI 应用层 + 金融业务 的岗位，核心在于把 Agent、微调（SFT）、强化学习（RL）等技术落地到金融场景。下面从知识体系、面试方向、解答方案三个维度进行分析。
+
+一、需要掌握的关键知识体系
+1. Agent 技术栈
+领域	关键点
+Agent 架构	ReAct、Plan-and-Execute、Multi-Agent（CrewAI/AutoGen/LangGraph）、Tool-Use
+规划与推理	Chain-of-Thought、Tree-of-Thought、Reflection、Self-Critique
+工具调用	Function Calling、MCP 协议、API 编排、沙箱执行
+记忆机制	短期记忆（上下文窗口）、长期记忆（向量检索）、工作记忆（Scratchpad）
+Multi-Agent	角色分工、通信协议、冲突仲裁、共享状态管理
+2. SFT（Supervised Fine-Tuning）
+领域	关键点
+数据工程	金融领域语料构建、指令数据格式（Alpaca/ShareGPT）、数据清洗与去重
+微调方法	Full Fine-Tuning、LoRA/QLoRA、Adapter、Prefix Tuning
+训练框架	DeepSpeed、FSDP、Megatron-LM、Hugging Face TRL
+评估	金融 NLP Benchmark、人工评估、A/B 测试
+对齐	DPO（Direct Preference Optimization）、RLHF 的简化替代
+3. RL（Reinforcement Learning）
+领域	关键点
+RLHF	Reward Model 训练、PPO/GRPO 算法、KL 散度约束
+金融 RL	量化交易（Portfolio Optimization）、风控决策、动态定价
+核心概念	MDP、Policy Gradient、Actor-Critic、Reward Shaping
+实际挑战	奖励稀疏、样本效率、Sim2Real Gap、安全约束
+4. 金融业务场景
+场景	AI 落地方式
+智能投研	Agent 自动收集研报/财报 → 结构化提取 → 生成投研摘要
+智能客服/理财顾问	多轮对话 + 用户画像 + 合规校验 Agent
+风控决策	RL 驱动的实时反欺诈、信贷审批策略优化
+量化交易	RL Agent 做仓位管理、订单执行策略
+合规审查	文档解析 Agent + 规则引擎 + LLM 判断
+报告生成	RAG + SFT 模型生成合规的金融分析报告
+二、面试方向与解答方案
+方向 1：Agent 架构设计
+Q1: 请设计一个智能投研 Agent 系统，能够自动完成从数据收集到研报生成的全流程。
+
+解答框架：
+
+用户提问（如"分析贵州茅台 Q3 财报"）
+        │
+        ▼
+┌─────────────────────┐
+│   Orchestrator Agent │ ← 任务规划与分解
+└────────┬────────────┘
+         │ 分解为子任务
+         ▼
+┌────────────────┐  ┌────────────────┐  ┌────────────────┐
+│ 数据采集 Agent  │  │ 分析推理 Agent  │  │ 报告撰写 Agent  │
+│ - 财报 API     │  │ - 财务指标计算  │  │ - 模板填充     │
+│ - 研报爬取     │  │ - 同行对比     │  │ - 合规校验     │
+│ - 新闻聚合     │  │ - 趋势分析     │  │ - 可视化图表   │
+└────────────────┘  └────────────────┘  └────────────────┘
+关键设计决策：
+
+规划策略：用 Plan-and-Execute 而非纯 ReAct。金融分析是结构化任务，先规划步骤再执行比边想边做更可靠
+工具集：Wind/Bloomberg API、SEC EDGAR、财务计算器、图表生成器
+安全机制：所有数据源需验证时效性（避免用过期数据做分析）；生成内容需合规审查 Agent 二次校验
+记忆：用向量数据库存储历史分析，支持"与上季度对比"类查询
+Q2: Agent 在金融场景中如何处理幻觉（Hallucination）问题？这在金融场景为何特别致命？
+
+解答要点：
+
+为何致命：金融数据错误可能导致投资决策失误、合规违规、法律风险
+防线设计（分层防御）：
+第一层 - 数据锚定：所有数值类输出必须来自可追溯的数据源（RAG + Citation），禁止模型"编造"数字
+第二层 - 事实校验 Agent：独立 Agent 交叉验证关键事实（如"茅台 Q3 营收"需与至少 2 个数据源对比）
+第三层 - 置信度标注：模型输出附带置信度，低置信度内容标记为"待人工确认"
+第四层 - 人机协同：关键决策节点强制 Human-in-the-Loop
+方向 2：SFT 在金融领域的落地
+Q3: 如何为一个金融场景的 LLM 构建高质量的 SFT 数据集？
+
+解答框架：
+
+数据来源                    处理流程                     质量控制
+───────────────────────────────────────────────────────────────
+研报/公告/财报              → 结构化提取                 → 专家审核
+├─ Wind/Bloomberg           → (问题, 回答) 对构建        → 交叉验证
+├─ 券商研报 PDF             → 指令格式化(ShareGPT)       → 去重去噪
+├─ 交易所公告               → 难度分级                   → 合规过滤
+└─ 金融教材                 → 多样性采样                 → A/B评估
+关键数据类型：
+1. 财务分析类：给定财报数据 → 输出分析结论
+2. 合规判断类：给定条款+场景 → 判断是否合规
+3. 风险评估类：给定客户信息 → 输出风险等级+理由
+4. 市场解读类：给定行情/新闻 → 输出市场观点
+关键考量：
+
+数据质量 > 数据数量：金融领域 5000 条高质量专家标注 > 50000 条低质量爬取
+时效性：金融数据有强时效性，训练集需标注时间戳，避免模型学到过时的市场判断
+合规红线：训练数据中不能包含内幕信息、不能包含具体投资建议（监管要求）
+领域术语：确保 tokenizer 对金融术语（如"PE-TTM"、"WACC"、"久期"）有合理分词
+Q4: LoRA 微调 vs Full Fine-Tuning，在金融场景如何选择？
+
+解答要点：
+
+维度	LoRA	Full Fine-Tuning
+适用场景	风格适配（让模型说"金融话"）、单一任务优化	深度领域知识注入、多任务金融模型
+资源需求	单卡 A100 可训 7B-70B	多卡/多机，成本 10-100x
+灾难性遗忘	风险低（只改少量参数）	风险高（需混合通用数据）
+金融建议	首选，大多数金融场景 LoRA 足够	仅在构建"金融基座模型"时考虑
+实战建议：先 LoRA 快速验证 → 效果不足再考虑 QLoRA 增大 rank → 最后才考虑全参数微调。金融场景的核心知识更适合通过 RAG 注入，SFT 主要解决"格式/风格/推理模式"问题。
+
+方向 3：RL 在金融中的应用
+Q5: 请设计一个基于 RL 的量化交易系统的奖励函数。
+
+解答框架：
+
+def reward_function(state, action, next_state):
+    # 核心收益
+    portfolio_return = (next_state.portfolio_value - state.portfolio_value) / state.portfolio_value
+    
+    # 风险惩罚（Sharpe-like）
+    risk_penalty = -lambda_risk * state.portfolio_volatility
+    
+    # 交易成本
+    transaction_cost = -lambda_cost * abs(action.trade_volume) * fee_rate
+    
+    # 回撤惩罚（金融场景核心）
+    max_drawdown_penalty = -lambda_dd * max(0, state.peak_value - next_state.portfolio_value) / state.peak_value
+    
+    # 持仓集中度惩罚（风控约束）
+    concentration_penalty = -lambda_conc * max(0, max_position_ratio - threshold)
+    
+    return portfolio_return + risk_penalty + transaction_cost + max_drawdown_penalty + concentration_penalty
+关键设计考量：
+
+Reward Shaping：纯收益做奖励会导致高风险策略，必须加入风险约束项
+时间尺度：日频 vs 分钟频的奖励信号密度不同，需要不同的折扣因子 gamma
+Sim2Real Gap：回测环境不考虑滑点、市场冲击，需要在模拟器中加入噪声
+安全约束：用 Constrained RL（如 CPO/RCPO）硬约束最大亏损、持仓限制
+Q6: RLHF 在金融对话场景中如何应用？与通用 RLHF 有何不同？
+
+解答要点：
+
+通用 RLHF vs 金融 RLHF 的核心区别：
+
+维度	通用场景	金融场景
+Reward Model 标注者	通用众包	必须是持牌金融从业者
+偏好维度	有用、无害、诚实	+ 合规性、准确性、风险提示完整性
+安全约束	不输出有害内容	不输出具体投资建议、不承诺收益
+评估标准	人类偏好一致性	+ 监管合规率、事实准确率
+金融 RLHF 的特殊设计：
+
+多维度 Reward Model：分别训练"准确性 RM"、"合规性 RM"、"有用性 RM"，加权组合
+规则约束：硬编码合规规则作为 reward bonus/penalty（如包含风险提示 +0.5，包含收益承诺 -10）
+GRPO 替代 PPO：DeepSeek 提出的 Group Relative Policy Optimization，无需单独训练 RM，在金融场景更实用（减少 RM 引入的偏差）
+方向 4：系统工程与落地挑战
+Q7: 在金融机构中部署 AI Agent，最大的非技术挑战是什么？如何应对？
+
+解答要点：
+
+合规与监管
+
+模型可解释性要求（银保监会对 AI 决策有解释义务）
+解决方案：决策链路全程留痕（Trace）、关键节点输出推理过程、定期审计报告
+数据安全
+
+金融数据敏感（客户信息、交易数据、内幕信息）
+解决方案：本地部署/私有云、数据脱敏管道、模型不记忆个人信息
+风险控制
+
+AI 错误在金融场景的代价极高
+解决方案：渐进式放权（只读 → 建议 → 半自动 → 自动）、每层都有人工审批阈值、熔断机制
+信任建立
+
+金融从业者对 AI 不信任
+解决方案：先从"辅助"做起（帮人做得更快）而非"替代"（帮人做决策），用准确率数据说话
+Q8: 设计一个金融 Agent 的评估体系。
+
+解答框架：
+
+评估维度          指标                         基线要求
+─────────────────────────────────────────────────────
+准确性           数据引用准确率                 ≥ 99%
+                 财务计算正确率                 ≥ 99.9%
+                 事实性陈述准确率               ≥ 95%
+合规性           合规违规率                     ≤ 0.1%
+                 风险提示覆盖率                 100%
+                 敏感信息泄露率                 0%
+有效性           任务完成率                     ≥ 90%
+                 用户采纳率                     ≥ 70%
+                 vs 人工效率提升               ≥ 3x
+鲁棒性           对抗性输入防御率               ≥ 95%
+                 异常数据处理率                 100%
+                 服务可用性                     ≥ 99.9%
+时效性           数据新鲜度                     ≤ 15min 延迟
+                 响应时间                       ≤ 5s (P95)
+三、面试准备建议
+高优先级准备项
+手撕 Agent 架构：能白板画出一个完整的金融 Agent 系统（包括规划、工具、记忆、安全层）
+SFT 实操经验：至少跑通一次 LoRA 微调流程（推荐用 LLaMA-Factory 或 TRL）
+RL 基础概念：MDP、Policy Gradient、PPO 的直觉理解 + RLHF/GRPO 的流程
+金融业务理解：基本的金融术语（PE、PB、Sharpe Ratio、VaR）、主要金融场景的业务流程
+推荐阅读
+Agent：LangGraph 文档、Anthropic 的 "Building Effective Agents"、OpenAI Function Calling 最佳实践
+SFT：LoRA 原论文、QLoRA 论文、LLaMA-Factory 文档
+RL：Spinning Up (OpenAI)、InstructGPT 论文、DeepSeek GRPO 论文
+金融 AI：FinGPT 项目、BloombergGPT 论文、金融 NLP 综述
+需要我对某个具体方向深入展开吗？比如 Agent 工具调用的工程实现细节、SFT 数据构建的实操步骤、或者 RL 在风控场景的具体算法设计。
